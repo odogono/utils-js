@@ -1,10 +1,11 @@
 {
     "compilerOptions": {
-      "module": "commonjs",
+      "module": "es2020",
       "target": "es2015",
+      "moduleResolution": "Node",
       "esModuleInterop": true,
       "declaration": true,
-      "outDir": "./dist"
+      "outDir": "./lib/esm/"
     },
     "include": [
       "src/**/*"
