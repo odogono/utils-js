@@ -1,0 +1,3 @@
+export {
+    toInteger
+} from './to';
