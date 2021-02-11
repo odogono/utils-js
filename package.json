@@ -1,25 +1,45 @@
 {
   "name": "@odgn/utils",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "a collection of utility functions",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./bitfield": {
+      "import": "./dist/bitfield.mjs",
+      "require": "./dist/bitfield.js"
+    },
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "bitfield": [
+        "dist/bitfield"
+      ]
+    }
+  },
   "scripts": {
-    "compile": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
-    "prepublish": "npm run compile",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c rollup.config.js",
+    "prepublish": "npm run build",
+    "test": "ts-node test/index.ts"
   },
   "author": {
     "name": "Alexander Veenendaal",
     "email": "alex@opendoorgonorth.com"
   },
   "license": "MIT",
-  "dependencies": {
-    "jsonpointer": "^4.1.0"
+  "peerDependencies": {
+    "jsonpointer": "4.1.x"
   },
   "devDependencies": {
     "@types/node": "^14.14.25",
+    "rollup": "^2.38.5",
+    "rollup-plugin-typescript2": "^0.29.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.4",
     "uvu": "^0.5.1"
