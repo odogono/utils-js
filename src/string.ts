@@ -1,3 +1,6 @@
+import { isString } from "./is";
+import { stringify } from "./json";
+
 /**
  * Trims whitespace from the left side of a string up to the offset
  * @param {*} str
@@ -30,4 +33,47 @@ export function trimMultiQuote(buffer: string, offset: number) {
     buffer = lines.join('\n');
 
     return buffer;
+}
+
+/**
+ * Truncates a string to the given length, adding ellipsis
+ * @param str 
+ * @param len 
+ */
+export function truncate(str: string, len = 10, ellipsis = '...'):string {
+    return str === undefined ? '' : str.length <= len ? str : str.slice(0, len) + ellipsis;
+}
+
+
+/**
+ * Slugifys a string
+ * 
+ * https://lucidar.me/en/web-dev/how-to-slugify-a-string-in-javascript/
+ * 
+ * @param value 
+ */
+export function slugify(value:string): string{
+    if( !isString(value) ){
+        value = stringify(value);
+    }
+    value = value.replace(/^\s+|\s+$/g, '');
+
+    // Make the string lowercase
+    value = value.toLowerCase();
+
+    // Remove accents, swap ñ for n, etc
+    var from = "ÁÄÂÀÃÅČÇĆĎÉĚËÈÊẼĔȆÍÌÎÏŇÑÓÖÒÔÕØŘŔŠŤÚŮÜÙÛÝŸŽáäâàãåčçćďéěëèêẽĕȇíìîïňñóöòôõøðřŕšťúůüùûýÿžþÞĐđßÆa·/_,:;";
+    var to   = "AAAAAACCCDEEEEEEEEIIIINNOOOOOORRSTUUUUUYYZaaaaaacccdeeeeeeeeiiiinnooooooorrstuuuuuyyzbBDdBAa------";
+    for (let ii=0, len=from.length ; ii<len ; ii++) {
+        value = value.replace(new RegExp(from.charAt(ii), 'g'), to.charAt(ii));
+    }
+
+    // Remove invalid chars
+    value = value.replace(/[^a-z0-9 -]/g, '') 
+    // Collapse whitespace and replace by -
+    .replace(/\s+/g, '-') 
+    // Collapse dashes
+    .replace(/-+/g, '-'); 
+
+    return value;
 }
