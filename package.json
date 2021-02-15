@@ -1,6 +1,6 @@
 {
   "name": "@odgn/utils",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "a collection of utility functions",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
