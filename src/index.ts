@@ -1,4 +1,5 @@
 export {
+    toBoolean,
     toInteger,
     toNumber,
     toCapitalized,
@@ -14,6 +15,12 @@ export * as BitField from './bitfield';
 export {
     deepExtend
 } from './deep_extend';
+
+export {
+    debounce,
+    defer,
+    delay
+} from './debounce'
 
 export {
     hash,
@@ -51,4 +58,14 @@ export {
 
 export { omit } from './omit';
 export { pick } from './pick';
+
+export {
+    slugify,
+    trimLeftMax,
+    trimMultiQuote,
+    truncate
+} from './string';
+
 export { createUUID } from './uuid';
+
+export { buildQueryString, parseUri } from './uri';

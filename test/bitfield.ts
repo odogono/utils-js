@@ -9,7 +9,8 @@ import {
     and, or,
     toString,
     toValues,
-    toArray
+    toArray,
+    not
 } from '../src/bitfield';
 
 
@@ -132,5 +133,16 @@ test('should OR', () => {
         true);
 });
 
+
+test('NOT', () => {
+    const expectNot = (a: string, b: string, expected: boolean) =>
+        assert.equal(not(create(a), create(b)), expected);
+
+    expectNot( '1000', '1000', false );
+    expectNot('1000', '1010', false);
+    expectNot('1000', '1100', false);
+    expectNot('0110', '1001', true);
+    expectNot('0000', '0000', true);
+})
 
 test.run();

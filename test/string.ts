@@ -9,7 +9,7 @@ let test = suite('util/is');
 test('truncate', () => {
     assert.equal(
         truncate('the string is truncated by a given amount'),
-        'the·string...'
+        'the string...'
     )
 });
 

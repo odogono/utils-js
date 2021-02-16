@@ -122,33 +122,14 @@ export function count(bf:BitField): number {
 export function typeFn( a:BitField|number ){
     // todo - TYPE_NOT
     const type = isBitField(a) ? (a as BitField).type : a as number;
-    return type === TYPE_AND ? and : or;
+    return type === TYPE_AND ? and : TYPE_OR ? or : not;
 }
 
 /**
  * Bitwise AND - returns false if one bit is true when the other is false
  */
 export function and(a : BitField, b : BitField ) : boolean {
-    if (a.isAllSet && b.isAllSet) {
-        return true;
-    }
-    if (a.values.length === 0 && b.values.length === 0) {
-        return false;
-    }
-
-    let avalues = a.values;
-    let bvalues = b.values;
-
-    for (let ii = 0, len = avalues.length; ii < len; ii++) {
-        if (avalues[ii] === undefined) {
-            continue;
-        }
-        if ((avalues[ii] & bvalues[ii]) !== avalues[ii]) {
-            return false;
-        }
-    }
-    
-    return true;
+    return compare(a,b,TYPE_AND);
 };
 
 /**
@@ -156,25 +137,44 @@ export function and(a : BitField, b : BitField ) : boolean {
  * (previously aand)
  */
 export function or(a : BitField, b : BitField) : boolean {
+    return compare(a,b,TYPE_OR);
+};
+
+
+/**
+ * Bitwise NOT - returns true if no bits match
+ * @param a 
+ * @param b 
+ */
+export function not(a : BitField, b : BitField ) : boolean {
+    return compare(a,b,TYPE_NOT);
+}
+
+export function compare(a: BitField, b:BitField, type = TYPE_AND ): boolean {
     if (a.isAllSet && b.isAllSet) {
-        return true;
+        return type !== TYPE_NOT;
     }
-    if (a.values.length === 0 && b.values.length === 0) {
-        return false;
+    if( a.values.length === 0 && b.values.length === 0 ){
+        return type === TYPE_NOT;
     }
 
     let avalues = a.values;
     let bvalues = b.values;
-    let result : boolean = false;
+    let result : boolean = type === TYPE_NOT || type === TYPE_AND;
 
     for (let ii = 0, len = avalues.length; ii < len; ii++) {
-        if ((avalues[ii] & bvalues[ii]) !== 0) {
-            return true;
+        if (avalues[ii] === undefined) {
+            continue;
+        }
+        if ((avalues[ii] & bvalues[ii]) !== (type === TYPE_AND ? avalues[ii] : 0) ) {
+            return type === TYPE_OR;
         }
     }
 
     return result;
-};
+}
+
+
 
 export function get(bf:BitField, index: number): boolean {
     if (bf.isAllSet) {
