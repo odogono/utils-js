@@ -120,9 +120,12 @@ export function count(bf:BitField): number {
  * @param a 
  */
 export function typeFn( a:BitField|number ){
-    // todo - TYPE_NOT
     const type = isBitField(a) ? (a as BitField).type : a as number;
-    return type === TYPE_AND ? and : TYPE_OR ? or : not;
+    switch(type){
+        case TYPE_NOT: return not;
+        case TYPE_OR: return or;
+        default: return and;
+    }
 }
 
 /**

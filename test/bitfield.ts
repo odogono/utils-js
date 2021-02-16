@@ -143,6 +143,8 @@ test('NOT', () => {
     expectNot('1000', '1100', false);
     expectNot('0110', '1001', true);
     expectNot('0000', '0000', true);
+
+    expectNot('100', '10110', false);
 })
 
 test.run();
