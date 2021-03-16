@@ -37,6 +37,7 @@ export function trimMultiQuote(buffer: string, offset: number) {
 
 /**
  * Truncates a string to the given length, adding ellipsis
+ * 
  * @param str 
  * @param len 
  */
@@ -76,4 +77,30 @@ export function slugify(value:string): string{
     .replace(/-+/g, '-'); 
 
     return value;
+}
+
+/**
+ * Adds single quotes to a string if it does not already have them
+ * 
+ * @param str 
+ * @returns 
+ */
+ export function ensureQuotes(str: string, quoteChar="'" ):string {
+    if (str === undefined) {
+        return '';
+    }
+    str = str.trim().replace(/^["'](.+)["']$/, '$1');
+    return quoteChar + str + quoteChar;
+}
+
+
+/**
+ * Removes single or double quotes from a string
+ * 
+ * @param str 
+ * @returns 
+ */
+export function removeQuotes(str:string):string {
+    // https://stackoverflow.com/a/19156197
+    return str !== undefined ? str.trim().replace(/^["'](.+(?=["']$))["']$/, '$1') : '';
 }

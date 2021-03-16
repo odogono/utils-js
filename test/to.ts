@@ -17,6 +17,7 @@ test('toBoolean', () => {
     assert.not.ok(toBoolean(0));
     assert.not.ok(toBoolean('0'));
     assert.not.ok(toBoolean('no'));
+    assert.not.ok(toBoolean(undefined));
 });
 
 

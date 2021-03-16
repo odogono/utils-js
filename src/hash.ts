@@ -7,7 +7,7 @@
  * @param {boolean} [asString=false] set to true to return the hash value as 
  *     8-digit hex string instead of an integer
  * @param {integer} [seed] optionally pass the hash of the previous chunk
- * @returns {integer | string}
+ * @returns {integer | string} a hash of the input as a string or number
  */
 export function hash /*Fnv32a*/(str: any, asString: boolean = true, seed: number = 0x811c9dc5): string | number {
     /*jshint bitwise:false */
