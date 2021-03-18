@@ -102,5 +102,5 @@ export function slugify(value:string): string{
  */
 export function removeQuotes(str:string):string {
     // https://stackoverflow.com/a/19156197
-    return str !== undefined ? str.trim().replace(/^["'](.+(?=["']$))["']$/, '$1') : '';
+    return str !== undefined ? str.trim().replace(/^["']?(.+(?=["']$))["']?$/, '$1') : '';
 }
