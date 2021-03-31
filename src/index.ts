@@ -10,7 +10,6 @@ export {
     objectKeysToCamelCase
 } from './to';
 
-export * as BitField from './bitfield';
 
 export {
     deepExtend
