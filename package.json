@@ -1,6 +1,6 @@
 {
   "name": "@odgn/utils",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "description": "a collection of utility functions",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -33,7 +33,7 @@
     "email": "alex@opendoorgonorth.com"
   },
   "license": "MIT",
-  "peerDependencies": {
+  "dependencies": {
     "jsonpointer": "4.1.x"
   },
   "devDependencies": {
