@@ -5,11 +5,30 @@ const crypto = typeof window !== 'undefined' &&
     typeof self !== 'undefined' &&
     self.crypto;
 
+const requireCrypto = () => {
+    try {
+        return require('crypto');
+    } catch( err ){
+        return undefined;
+    }
+}
 
-const getRandomValues = crypto ?
-    () => crypto.getRandomValues(new Uint8Array(16))
-    : () => require('crypto').randomBytes(16);
+function getRandomValues(){
+    if( crypto ){
+        return crypto.getRandomValues(new Uint8Array(16));
+    }
+    const rc = requireCrypto();
+    if( rc !== undefined ){
+        return rc.randomBytes(16);
+    }
 
+    // warning - use as last resort - collisions likely after 20-30 million iterations
+    let res = [];
+    for (let ii=0; ii < 16; ii++) {
+        res.push(Math.floor(Math.random() * 256));
+    }
+    return res;
+}
 
 /**
  * Creates a new UUIDv4
