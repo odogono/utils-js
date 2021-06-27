@@ -1,5 +1,4 @@
-import { isObject } from "./is";
-
+import { isObject } from './is';
 
 type ValueType = BitField | number | number[] | string;
 
@@ -8,7 +7,7 @@ export const TYPE_OR = 1;
 export const TYPE_NOT = 2;
 
 /**
- * 
+ *
  */
 export interface BitField {
     isAllSet: boolean;
@@ -16,36 +15,35 @@ export interface BitField {
     values: number[];
 }
 
-
 /**
  * Creates a new Bitfield instance
- * 
- * @param values 
+ *
+ * @param values
  */
-export function create( values?:ValueType ){
-    let result:BitField = {
+export function create(values?: ValueType) {
+    let result: BitField = {
         isAllSet: false,
         type: TYPE_AND,
-        values: []
-    }
-    if( values !== undefined ){
-        result = set( result, values, true );
+        values: [],
+    };
+    if (values !== undefined) {
+        result = set(result, values, true);
     }
     return result;
 }
 
 /**
- * 
- * @param value 
+ *
+ * @param value
  */
-export function isBitField(value:any):boolean { 
+export function isBitField(value: any): boolean {
     return isObject(value) && 'values' in value;
 }
 
 /**
  * Returns a binary string representation of the BitField
  */
-export function toString(bf:BitField): string {
+export function toString(bf: BitField): string {
     if (bf.isAllSet) {
         return 'all';
     }
@@ -54,23 +52,23 @@ export function toString(bf:BitField): string {
     }
 
     return toArray(bf)
-        .map(val => (val ? '1' : '0'))
+        .map((val) => (val ? '1' : '0'))
         .join('');
 }
 
 /**
  * Returns an array representation of each bit represented as a boolean
  */
-export function toArray(bf:BitField) : boolean[] {
+export function toArray(bf: BitField): boolean[] {
     if (bf.isAllSet) {
         return [];
     }
-    const {values} = bf;
-    let found: boolean = false;
-    let result: boolean[] = [];
+    const { values } = bf;
+    let found = false;
+    const result: boolean[] = [];
 
     for (let ii = values.length * 32 - 1; ii >= 0; ii--) {
-        let v: boolean = get(bf, ii);
+        const v: boolean = get(bf, ii);
 
         // found ? result.push(v) : found = v;
 
@@ -87,7 +85,7 @@ export function toArray(bf:BitField) : boolean[] {
 /**
  * Returns the number of bits set to true
  */
-export function count(bf:BitField): number {
+export function count(bf: BitField): number {
     if (bf.isAllSet) {
         return Number.MAX_VALUE;
     }
@@ -95,7 +93,7 @@ export function count(bf:BitField): number {
         return 0;
     }
 
-    let count: number = 0;
+    let count = 0;
     const values = bf.values;
 
     for (let ii = 0, len = values.length; ii < len; ii++) {
@@ -116,60 +114,62 @@ export function count(bf:BitField): number {
 }
 
 /**
- * 
- * @param a 
+ *
+ * @param a
  */
-export function typeFn( a:BitField|number ){
-    const type = isBitField(a) ? (a as BitField).type : a as number;
-    switch(type){
-        case TYPE_NOT: return not;
-        case TYPE_OR: return or;
-        default: return and;
+export function typeFn(a: BitField | number) {
+    const type = isBitField(a) ? (a as BitField).type : (a as number);
+    switch (type) {
+        case TYPE_NOT:
+            return not;
+        case TYPE_OR:
+            return or;
+        default:
+            return and;
     }
 }
 
 /**
  * Bitwise AND - returns false if one bit is true when the other is false
  */
-export function and(a : BitField, b : BitField ) : boolean {
-    return compare(a,b,TYPE_AND);
-};
+export function and(a: BitField, b: BitField): boolean {
+    return compare(a, b, TYPE_AND);
+}
 
 /**
  * Bitwise OR - returns true if any matching bits are true
  * (previously aand)
  */
-export function or(a : BitField, b : BitField) : boolean {
-    return compare(a,b,TYPE_OR);
-};
-
+export function or(a: BitField, b: BitField): boolean {
+    return compare(a, b, TYPE_OR);
+}
 
 /**
  * Bitwise NOT - returns true if no bits match
- * @param a 
- * @param b 
+ * @param a
+ * @param b
  */
-export function not(a : BitField, b : BitField ) : boolean {
-    return compare(a,b,TYPE_NOT);
+export function not(a: BitField, b: BitField): boolean {
+    return compare(a, b, TYPE_NOT);
 }
 
-export function compare(a: BitField, b:BitField, type = TYPE_AND ): boolean {
+export function compare(a: BitField, b: BitField, type = TYPE_AND): boolean {
     if (a.isAllSet && b.isAllSet) {
         return type !== TYPE_NOT;
     }
-    if( a.values.length === 0 && b.values.length === 0 ){
+    if (a.values.length === 0 && b.values.length === 0) {
         return type === TYPE_NOT;
     }
 
-    let avalues = a.values;
-    let bvalues = b.values;
-    let result : boolean = type === TYPE_NOT || type === TYPE_AND;
+    const avalues = a.values;
+    const bvalues = b.values;
+    const result: boolean = type === TYPE_NOT || type === TYPE_AND;
 
     for (let ii = 0, len = avalues.length; ii < len; ii++) {
         if (avalues[ii] === undefined) {
             continue;
         }
-        if ((avalues[ii] & bvalues[ii]) !== (type === TYPE_AND ? avalues[ii] : 0) ) {
+        if ((avalues[ii] & bvalues[ii]) !== (type === TYPE_AND ? avalues[ii] : 0)) {
             return type === TYPE_OR;
         }
     }
@@ -177,31 +177,29 @@ export function compare(a: BitField, b:BitField, type = TYPE_AND ): boolean {
     return result;
 }
 
-
-
-export function get(bf:BitField, index: number): boolean {
+export function get(bf: BitField, index: number): boolean {
     if (bf.isAllSet) {
         return true;
     }
-    let ii: number = (index / 32) | 0; // | 0 converts to an int. Math.floor works too.
-    let bit: number = index % 32;
+    const ii: number = (index / 32) | 0; // | 0 converts to an int. Math.floor works too.
+    const bit: number = index % 32;
     return (bf.values[ii] & (1 << bit)) !== 0;
 }
 
 /**
- * 
- * @param bf 
- * @param index 
- * @param value 
+ *
+ * @param bf
+ * @param index
+ * @param value
  */
-export function set( bf:BitField, index:ValueType, value:boolean = true ) {
+export function set(bf: BitField, index: ValueType, value = true) {
     // let { values } = bf;
     // this.isAllSet = false;
 
-    if( typeof index === 'number' ){
-        let values = bf.values.slice();
-        let partIndex: number = (index / 32) | 0;
-        let bit: number = index % 32;
+    if (typeof index === 'number') {
+        const values = bf.values.slice();
+        const partIndex: number = (index / 32) | 0;
+        const bit: number = index % 32;
 
         if (value) {
             values[partIndex] |= 1 << bit;
@@ -209,63 +207,53 @@ export function set( bf:BitField, index:ValueType, value:boolean = true ) {
             values[partIndex] &= ~(1 << bit);
         }
 
-        return {...bf, isAllSet:false, values};
-    }
-    
-    else if( typeof index === 'string' ){
+        return { ...bf, isAllSet: false, values };
+    } else if (typeof index === 'string') {
         if (index === 'all') {
-            return {...bf, isAllSet:true};
+            return { ...bf, isAllSet: true };
         } else {
-            let parts: string[] = index.split('');
-            for (
-                let ii = parts.length - 1, len = parts.length - 1;
-                ii >= 0;
-                ii--
-            ) {
+            const parts: string[] = index.split('');
+            for (let ii = parts.length - 1, len = parts.length - 1; ii >= 0; ii--) {
                 bf = set(bf, len - ii, parts[ii] === '1');
             }
         }
 
         return bf;
+    } else if (isBitField(index)) {
+        return setValues(bf, toValues(index as BitField), true);
+    } else if (Array.isArray(index)) {
+        return setValues(bf, index, value);
     }
-    else if (isBitField(index)) {
-        return setValues( bf, toValues(index as BitField), true );
-    }
-
-    else if( Array.isArray(index) ){
-        return setValues( bf, index, value );
-    }
-
 
     return this;
 }
 
 /**
- * 
- * @param bf 
- * @param values 
- * @param value 
+ *
+ * @param bf
+ * @param values
+ * @param value
  */
-export function setValues(bf:BitField, values: number[], value: boolean = true) {
-    if( values === undefined ){
-        return {...bf, isAllSet:value};
+export function setValues(bf: BitField, values: number[], value = true) {
+    if (values === undefined) {
+        return { ...bf, isAllSet: value };
     }
     for (let ii = 0, len = values.length; ii < len; ii++) {
-        bf = set(bf, values[ii], value );
+        bf = set(bf, values[ii], value);
     }
     return bf;
 }
 
 /**
- * 
- * @param bf 
+ *
+ * @param bf
  */
-export function toValues(bf:BitField): number[] {
-    let result: number[] = [];
-    if( bf === undefined ){
+export function toValues(bf: BitField): number[] {
+    const result: number[] = [];
+    if (bf === undefined) {
         return result;
     }
-    
+
     for (let ii = 0, len = bf.values.length * 32; ii < len; ii++) {
         if (get(bf, ii)) {
             result.push(ii);

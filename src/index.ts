@@ -7,29 +7,16 @@ export {
     toSnakeCase,
     toPascalCase,
     toCamelCase,
-    objectKeysToCamelCase
+    objectKeysToCamelCase,
 } from './to';
 
+export { deepExtend } from './deep_extend';
 
-export {
-    deepExtend
-} from './deep_extend';
+export { debounce, defer, delay } from './debounce';
 
-export {
-    debounce,
-    defer,
-    delay
-} from './debounce'
+export { hash, hashToString } from './hash';
 
-export {
-    hash,
-    hashToString
-} from './hash';
-
-export {
-    buildFlake53,
-    parseFlake53
-} from './id';
+export { buildFlake53, parseFlake53 } from './id';
 
 export {
     isObject,
@@ -45,25 +32,15 @@ export {
     isBrowser,
     isPromise,
     isEmpty,
-    isEqual
+    isEqual,
 } from './is';
 
-export {
-    parseJSON,
-    stringify,
-    rehydrate,
-    dehydrate
-} from './json';
+export { parseJSON, stringify, rehydrate, dehydrate } from './json';
 
 export { omit } from './omit';
 export { pick } from './pick';
 
-export {
-    slugify,
-    trimLeftMax,
-    trimMultiQuote,
-    truncate
-} from './string';
+export { slugify, trimLeftMax, trimMultiQuote, truncate } from './string';
 
 export { createUUID } from './uuid';
 

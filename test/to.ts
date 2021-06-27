@@ -2,8 +2,7 @@ import { suite } from 'uvu';
 import assert from 'uvu/assert';
 import { toBoolean } from '../src/to';
 
-let test = suite('util/to');
-
+const test = suite('util/to');
 
 test('toBoolean', () => {
     assert.ok(toBoolean(true));
@@ -11,7 +10,7 @@ test('toBoolean', () => {
     assert.ok(toBoolean(1));
     assert.ok(toBoolean('1'));
     assert.ok(toBoolean('yes'));
-    
+
     assert.not.ok(toBoolean(false));
     assert.not.ok(toBoolean('false'));
     assert.not.ok(toBoolean(0));
@@ -19,7 +18,5 @@ test('toBoolean', () => {
     assert.not.ok(toBoolean('no'));
     assert.not.ok(toBoolean(undefined));
 });
-
-
 
 test.run();

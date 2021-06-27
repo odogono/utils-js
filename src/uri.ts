@@ -11,7 +11,7 @@
 //     };
 // }
 
-import { isString } from "./is";
+import { isString } from './is';
 import { stringify } from './json';
 
 export interface UriStructure {
@@ -51,14 +51,15 @@ export function parseUri(str: string): UriStructure {
     uri[o.q.name] = {};
     uri[o.key[12]].replace(o.q.parser, ($0, $1, $2) => {
         // NOTE AV : added decode here
-        if ($1) { uri[o.q.name][$1] = decodeURIComponent($2); }
+        if ($1) {
+            uri[o.q.name][$1] = decodeURIComponent($2);
+        }
     });
 
     return uri as UriStructure;
 }
 
 parseUri.options = {
-
     key: [
         'source',
         'protocol',
@@ -73,7 +74,7 @@ parseUri.options = {
         'directory',
         'file',
         'query',
-        'anchor'
+        'anchor',
     ],
     parser: {
         // eslint-disable-next-line
@@ -83,23 +84,19 @@ parseUri.options = {
     },
     q: {
         name: 'queryKey',
-        parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+        parser: /(?:^|&)([^&=]*)=?([^&]*)/g,
     },
     strictMode: false,
 };
-
-
-
-
 
 // export interface BuildUrlOptions {
 //     ignoreEmptyValues?: boolean;
 // }
 
 // /**
-//  * 
-//  * @param {*} action 
-//  * @param {*} qs 
+//  *
+//  * @param {*} action
+//  * @param {*} qs
 //  */
 // export function buildUrl(action: string, qs = {}, options: BuildUrlOptions = {}): string {
 //     const ignoreEmptyValues = toBoolean(options.ignoreEmptyValues);
@@ -113,17 +110,15 @@ parseUri.options = {
 //     }
 // }
 
-
 /**
  * Builds a query string from an object
- * @param qs 
- * @param ignoreEmptyValues 
+ * @param qs
+ * @param ignoreEmptyValues
  */
-export function buildQueryString(qs = {}, ignoreEmptyValues: boolean = false): string {
-
-    let queryStringList = Object.keys(qs)
-        .filter(k => ignoreEmptyValues ? qs[k] !== undefined : true)
-        .map(key => {
+export function buildQueryString(qs = {}, ignoreEmptyValues = false): string {
+    const queryStringList = Object.keys(qs)
+        .filter((k) => (ignoreEmptyValues ? qs[k] !== undefined : true))
+        .map((key) => {
             let val = qs[key];
             if (isString(val)) {
                 val = encodeURIComponent(val);
@@ -141,7 +136,7 @@ export function buildQueryString(qs = {}, ignoreEmptyValues: boolean = false): s
             return -1;
         }
         return 0;
-    })
+    });
 
-    return queryStringList.map(pair => `${pair.key}=${pair.val}`).join('&');
+    return queryStringList.map((pair) => `${pair.key}=${pair.val}`).join('&');
 }

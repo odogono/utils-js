@@ -3,29 +3,27 @@
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
 
-
 /**
- * 
+ *
  * https://gist.github.com/nmsdvid/8807205
  */
-export function debounce(callback: Function, wait: number = 250) {
+export function debounce(callback: Function, wait = 250) {
     let timer;
     return (...args) => {
         clearTimeout(timer);
         timer = setTimeout(() => callback(...args), wait);
     };
-};
-
+}
 
 /**
  * Delays calling the specified function for <wait> ms
  */
-export const delay = (callback: Function, wait: number = 0, ...args: any[]): Promise<any> => {
+export const delay = (callback: Function, wait = 0, ...args: any[]): Promise<any> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             return resolve(callback(...args));
         }, wait);
-    })
+    });
 };
 
 /**

@@ -1,13 +1,13 @@
-import {isDate, isString} from './is';
+import { isDate, isString } from './is';
 
 /**
  * Creates a 'deep' copy of the given object
- * 
+ *
  * from: http://www.tuanhuynh.com/blog/2014/unpacking-underscore-clone-and-extend/
  */
-export function deepExtend<T>(out = {}, ...others) : T {
-    let ii:number;
-    let len:number;
+export function deepExtend<T>(out = {}, ...others): T {
+    let ii: number;
+    let len: number;
     let obj;
     let key, val;
 

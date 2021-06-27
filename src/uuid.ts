@@ -1,30 +1,29 @@
 // https://gist.github.com/jed/982883#gistcomment-3223002
 
-const crypto = typeof window !== 'undefined' &&
-    (window.crypto || window['msCrypto']) ||
-    typeof self !== 'undefined' &&
-    self.crypto;
+const crypto =
+    (typeof window !== 'undefined' && (window.crypto || window['msCrypto'])) ||
+    (typeof self !== 'undefined' && self.crypto);
 
 const requireCrypto = () => {
     try {
         return require('crypto');
-    } catch( err ){
+    } catch (err) {
         return undefined;
     }
-}
+};
 
-function getRandomValues(){
-    if( crypto ){
+function getRandomValues() {
+    if (crypto) {
         return crypto.getRandomValues(new Uint8Array(16));
     }
     const rc = requireCrypto();
-    if( rc !== undefined ){
+    if (rc !== undefined) {
         return rc.randomBytes(16);
     }
 
     // warning - use as last resort - collisions likely after 20-30 million iterations
-    let res = [];
-    for (let ii=0; ii < 16; ii++) {
+    const res = [];
+    for (let ii = 0; ii < 16; ii++) {
         res.push(Math.floor(Math.random() * 256));
     }
     return res;
@@ -34,8 +33,7 @@ function getRandomValues(){
  * Creates a new UUIDv4
  */
 export function createUUID() {
-    const hex = [...Array(256).keys()]
-        .map(index => (index).toString(16).padStart(2, '0'));
+    const hex = [...Array(256).keys()].map((index) => index.toString(16).padStart(2, '0'));
 
     const r = getRandomValues();
     // const r = crypto.getRandomValues(new Uint8Array(16));
@@ -43,9 +41,7 @@ export function createUUID() {
     r[6] = (r[6] & 0x0f) | 0x40;
     r[8] = (r[8] & 0x3f) | 0x80;
 
-    return [...r.entries()]
-        .map(([index, int]) => [4, 6, 8, 10].includes(index) ? `-${hex[int]}` : hex[int])
-        .join('');
+    return [...r.entries()].map(([index, int]) => ([4, 6, 8, 10].includes(index) ? `-${hex[int]}` : hex[int])).join('');
 }
 
 // export const createUUID = () => b();

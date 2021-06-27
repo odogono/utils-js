@@ -1,12 +1,12 @@
-import { isEmpty } from "./is";
+import { isEmpty } from './is';
 
 /**
  * Converts a value to a boolean
- * 
+ *
  * @param {*} value
  * @param {*} defaultValue
  */
-export function toBoolean(value: (boolean | number | string), defaultValue: boolean = false): boolean {
+export function toBoolean(value: boolean | number | string, defaultValue = false): boolean {
     switch (value) {
         case true:
         case 'true':
@@ -30,7 +30,7 @@ export function toBoolean(value: (boolean | number | string), defaultValue: bool
  * @param {*} value
  * @param {*} defaultValue
  */
-export function toInteger(value: any, defaultValue: number = 0) {
+export function toInteger(value: any, defaultValue = 0) {
     let result = parseInt(value, 10);
     if (Number.isNaN(result)) {
         result = defaultValue;
@@ -39,10 +39,10 @@ export function toInteger(value: any, defaultValue: number = 0) {
 }
 
 /**
- * @param value 
- * @param defaultValue 
+ * @param value
+ * @param defaultValue
  */
-export function toNumber(value: any, defaultValue: number = 0) {
+export function toNumber(value: any, defaultValue = 0) {
     let result = Number(value);
     if (Number.isNaN(result)) {
         result = defaultValue;
@@ -52,16 +52,16 @@ export function toNumber(value: any, defaultValue: number = 0) {
 
 /**
  * Capitalises a string
- * 
+ *
  */
 export function toCapitalized(str: string): string {
     return isEmpty(str) ? str : str.charAt(0).toUpperCase() + str.substring(1);
 }
 
-export function toKebabCase(str: string, joinChar: string = '-'): string {
+export function toKebabCase(str: string, joinChar = '-'): string {
     return str
         .match(/[A-Z]?[a-z]+/g)
-        .map(word => word.toLowerCase()) // word.charAt(0).toUpperCase() + word.substring(1) )
+        .map((word) => word.toLowerCase()) // word.charAt(0).toUpperCase() + word.substring(1) )
         .join(joinChar);
 }
 
@@ -72,26 +72,25 @@ export function toSnakeCase(str: string): string {
 /**
  *   Converts a string so that the words are CapitalisedAndConcatenated
  */
-export function toPascalCase(str: string, joinChar: string = ''): string {
+export function toPascalCase(str: string, joinChar = ''): string {
     return str
         .match(/[A-Z]?[a-z]+/g)
-        .map(word => toCapitalized(word)) // word.charAt(0).toUpperCase() + word.substring(1) )
+        .map((word) => toCapitalized(word)) // word.charAt(0).toUpperCase() + word.substring(1) )
         .join(joinChar);
 }
 
 /**
-*   Converts a string so that the words are capitalisedAndConcatenated
-*/
-export function toCamelCase(str: string, joinChar: string = ''): string {
-    let result = toPascalCase(str, joinChar);
+ *   Converts a string so that the words are capitalisedAndConcatenated
+ */
+export function toCamelCase(str: string, joinChar = ''): string {
+    const result = toPascalCase(str, joinChar);
     return result.charAt(0).toLowerCase() + result.substring(1);
 }
 
-
 /**
  * Converts all the keys in an object to Camelcase
- * 
- * @param obj 
+ *
+ * @param obj
  */
 export const objectKeysToCamelCase = (obj: any) => {
     return Object.keys(obj).reduce((memo, key) => {

@@ -1,22 +1,9 @@
 import { suite } from 'uvu';
 import assert from 'uvu/assert';
 
-import {
-    BitField,
-    create,
-    count,
-    set, get,
-    and, or,
-    toString,
-    toValues,
-    toArray,
-    not
-} from '../src/bitfield';
+import { BitField, create, count, set, get, and, or, toString, toValues, toArray, not } from '../src/bitfield';
 
-
-let test = suite('util/bitfield');
-
-
+const test = suite('util/bitfield');
 
 test('creates from values', () => {
     let bf = create([1, 2, 3]);
@@ -49,7 +36,7 @@ test('sets a value', () => {
     bf = set(bf, 3);
 
     assert.equal(toValues(bf), [1, 2, 3]);
-})
+});
 
 test('exports to various formats', () => {
     let bf = create();
@@ -64,10 +51,8 @@ test('exports to various formats', () => {
     assert.equal(toValues(bf), [0, 5]);
     assert.equal(toValues(create()), []);
 
-    assert.equal(toArray(bf),
-        [true, false, false, false, false, true]);
+    assert.equal(toArray(bf), [true, false, false, false, false, true]);
     assert.equal(toArray(create()), []);
-
 });
 
 test('counts the number of true values', () => {
@@ -83,8 +68,7 @@ test('counts the number of true values', () => {
 });
 
 test('should AND', () => {
-    const expectAnd = (a: string, b: string, expected: boolean) =>
-        assert.equal(and(create(a), create(b)), expected);
+    const expectAnd = (a: string, b: string, expected: boolean) => assert.equal(and(create(a), create(b)), expected);
 
     expectAnd('1000', '1000', true);
 
@@ -108,15 +92,14 @@ test('should AND', () => {
 });
 
 test('AND with empty', () => {
-    let a = create();
-    let b = create('101010');
+    const a = create();
+    const b = create('101010');
 
-    assert.equal( and(a,b), true ); // this is correct, even though we don't want it to be
+    assert.equal(and(a, b), true); // this is correct, even though we don't want it to be
 });
 
 test('should OR', () => {
-    const expectOr = (a: string, b: string, expected: boolean) =>
-        assert.equal(or(create(a), create(b)), expected);
+    const expectOr = (a: string, b: string, expected: boolean) => assert.equal(or(create(a), create(b)), expected);
 
     expectOr('1000', '1000', true);
     expectOr('1000', '1010', true);
@@ -130,21 +113,20 @@ test('should OR', () => {
     expectOr(
         '10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000',
         '1000000000000000000000000000000010000',
-        true);
+        true,
+    );
 });
 
-
 test('NOT', () => {
-    const expectNot = (a: string, b: string, expected: boolean) =>
-        assert.equal(not(create(a), create(b)), expected);
+    const expectNot = (a: string, b: string, expected: boolean) => assert.equal(not(create(a), create(b)), expected);
 
-    expectNot( '1000', '1000', false );
+    expectNot('1000', '1000', false);
     expectNot('1000', '1010', false);
     expectNot('1000', '1100', false);
     expectNot('0110', '1001', true);
     expectNot('0000', '0000', true);
 
     expectNot('100', '10110', false);
-})
+});
 
 test.run();

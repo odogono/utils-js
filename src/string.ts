@@ -1,5 +1,5 @@
-import { isString } from "./is";
-import { stringify } from "./json";
+import { isString } from './is';
+import { stringify } from './json';
 
 /**
  * Trims whitespace from the left side of a string up to the offset
@@ -13,11 +13,10 @@ export function trimLeftMax(str: string, offset: number) {
     return str.substring(ii - 1);
 }
 
-
 /**
  * Trims a multiline string
- * @param buffer 
- * @param offset 
+ * @param buffer
+ * @param offset
  */
 export function trimMultiQuote(buffer: string, offset: number) {
     // trim all whitespace up to the first character
@@ -37,24 +36,23 @@ export function trimMultiQuote(buffer: string, offset: number) {
 
 /**
  * Truncates a string to the given length, adding ellipsis
- * 
- * @param str 
- * @param len 
+ *
+ * @param str
+ * @param len
  */
-export function truncate(str: string, len = 10, ellipsis = '...'):string {
+export function truncate(str: string, len = 10, ellipsis = '...'): string {
     return str === undefined ? '' : str.length <= len ? str : str.slice(0, len) + ellipsis;
 }
 
-
 /**
  * Slugifys a string
- * 
+ *
  * https://lucidar.me/en/web-dev/how-to-slugify-a-string-in-javascript/
- * 
- * @param value 
+ *
+ * @param value
  */
-export function slugify(value:string): string{
-    if( !isString(value) ){
+export function slugify(value: string): string {
+    if (!isString(value)) {
         value = stringify(value);
     }
     value = value.replace(/^\s+|\s+$/g, '');
@@ -63,29 +61,30 @@ export function slugify(value:string): string{
     value = value.toLowerCase();
 
     // Remove accents, swap ñ for n, etc
-    var from = "ÁÄÂÀÃÅČÇĆĎÉĚËÈÊẼĔȆÍÌÎÏŇÑÓÖÒÔÕØŘŔŠŤÚŮÜÙÛÝŸŽáäâàãåčçćďéěëèêẽĕȇíìîïňñóöòôõøðřŕšťúůüùûýÿžþÞĐđßÆa·/_,:;";
-    var to   = "AAAAAACCCDEEEEEEEEIIIINNOOOOOORRSTUUUUUYYZaaaaaacccdeeeeeeeeiiiinnooooooorrstuuuuuyyzbBDdBAa------";
-    for (let ii=0, len=from.length ; ii<len ; ii++) {
+    const from = 'ÁÄÂÀÃÅČÇĆĎÉĚËÈÊẼĔȆÍÌÎÏŇÑÓÖÒÔÕØŘŔŠŤÚŮÜÙÛÝŸŽáäâàãåčçćďéěëèêẽĕȇíìîïňñóöòôõøðřŕšťúůüùûýÿžþÞĐđßÆa·/_,:;';
+    const to = 'AAAAAACCCDEEEEEEEEIIIINNOOOOOORRSTUUUUUYYZaaaaaacccdeeeeeeeeiiiinnooooooorrstuuuuuyyzbBDdBAa------';
+    for (let ii = 0, len = from.length; ii < len; ii++) {
         value = value.replace(new RegExp(from.charAt(ii), 'g'), to.charAt(ii));
     }
 
     // Remove invalid chars
-    value = value.replace(/[^a-z0-9 -]/g, '') 
-    // Collapse whitespace and replace by -
-    .replace(/\s+/g, '-') 
-    // Collapse dashes
-    .replace(/-+/g, '-'); 
+    value = value
+        .replace(/[^a-z0-9 -]/g, '')
+        // Collapse whitespace and replace by -
+        .replace(/\s+/g, '-')
+        // Collapse dashes
+        .replace(/-+/g, '-');
 
     return value;
 }
 
 /**
  * Adds single quotes to a string if it does not already have them
- * 
- * @param str 
- * @returns 
+ *
+ * @param str
+ * @returns
  */
- export function ensureQuotes(str: string, quoteChar="'" ):string {
+export function ensureQuotes(str: string, quoteChar = "'"): string {
     if (str === undefined) {
         return '';
     }
@@ -93,14 +92,13 @@ export function slugify(value:string): string{
     return quoteChar + str + quoteChar;
 }
 
-
 /**
  * Removes single or double quotes from a string
- * 
- * @param str 
- * @returns 
+ *
+ * @param str
+ * @returns
  */
-export function removeQuotes(str:string):string {
+export function removeQuotes(str: string): string {
     // https://stackoverflow.com/a/19156197
     return str !== undefined ? str.trim().replace(/^["']?(.+(?=["']$))["']?$/, '$1') : '';
 }
